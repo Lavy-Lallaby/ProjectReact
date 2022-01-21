@@ -21,8 +21,7 @@ const App = () => {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
-      }}
-     >
+      }}>
         <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
@@ -38,4 +37,4 @@ const App = () => {
   );
 }
 
-export default App
+export default App;
