@@ -1,40 +1,29 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+import LoginPage from "./component/login/LoginPage";
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './screens/HomeScreen';
-import AboutScreen from './screens/AboutScreen';
-
-
-const Stack = createStackNavigator();
-
-const App = () => {
+export default function App() {
   return (
-    <NavigationContainer>
-     <Stack.Navigator initailRouteName='Home'
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#C45',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-        <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{title:'Home'}}
-        />
-        <Stack.Screen
-        name="AboutScreen"
-        component={AboutScreen}
-        options={{title:'About'}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={styles.container}>
+          <LoginPage />
+          <StatusBar style="auto" />
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
   );
 }
 
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#fff",
+    justifyContent: "center",
+  },
+});
