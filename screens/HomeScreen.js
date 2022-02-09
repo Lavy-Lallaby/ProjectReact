@@ -26,12 +26,12 @@ const HomeScreen = ({navigation}) => {
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
           <Item
-            title="register"
+            title="RegisterScreen"
             iconName="person-add"
-            onPress={() => alert('ลงทะเบียน')}
+            onPress={() => navigation.navigate('RegisterScreen')}
           />
         </HeaderButtons>
-      ),  
+      ),
     });
   }, [navigation]);
 
@@ -43,7 +43,7 @@ const HomeScreen = ({navigation}) => {
         title="Go to Product"
         onPress={() =>
           navigation.navigate('Product', {email: 'kh.jakkit_st@tni.ac.th'})
-        }  
+        }
       />
     </View>
   );

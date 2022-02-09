@@ -1,6 +1,6 @@
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
-
+import {ScrollView} from 'react-native-gesture-handler';
 import {
   Content,
   Button,
@@ -12,7 +12,7 @@ import {
   Right,
 } from 'native-base';
 
-const MenuScreen = navigation => {
+const MenuScreen = ({navigation}) => {
   return (
     <ScrollView>
       <View>
@@ -62,7 +62,7 @@ export default MenuScreen;
 
 const styles = StyleSheet.create({
   Textstyle: {
-    color: '#80F7FF',
+    color: '#51D7AC',
     fontSize: 20,
     fontWeight: 'bold',
     padding: 20,

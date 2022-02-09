@@ -1,98 +1,83 @@
+import {} from 'react-native';
 import React from 'react';
-import {Image} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
 
-import ProfileScreen from './screens/ProfileScreen';
-import SettingScreen from './screens/SettingScreen';
-import Home from './screens/Home';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import DetailScreen from './screens/DetailScreen';
+import MenuScreen from './screens/MenuScreen';
+import AboutScreen from './screens/AboutScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function HomeStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#E9BFE2',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        headerStyle: {backgroundColor: '#51D7AC'},
+        headerTintColor: '#FFFF',
+        headerTitleStyle: {fontWeight: 'bold'},
       }}>
       <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{title: 'Home Page'}}
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{title: 'หน้าหลัก'}}
+      />
+      <Stack.Screen
+        name="AboutScreen"
+        component={AboutScreen}
+        options={{title: 'เกี่ยวกับเรา'}}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{title: 'ลงทะเบียน'}}
       />
     </Stack.Navigator>
   );
 }
 
-function SettingStack() {
+function ProductStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#E9BFE2',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        headerStyle: {backgroundColor: '#51D7AC'},
+        headerTintColor: '#FFFF',
+        headerTitleStyle: {fontWeight: 'bold'},
       }}>
       <Stack.Screen
-        name="Setting"
-        component={SettingScreen}
-        options={{title: 'Setting Page'}}
+        name="ProductScreen"
+        component={ProductScreen}
+        options={{title: 'สินค้า'}}
       />
       <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{title: 'Profile Page'}}
+        name="DetailScreen"
+        component={DetailScreen}
+        options={{title: 'DETAIL SCREEN'}}
+      />
+      <Stack.Screen
+        name="RegisterScreen"
+        component={RegisterScreen}
+        options={{title: 'ลงทะเบียน'}}
       />
     </Stack.Navigator>
   );
 }
 
 const App = () => {
-  const Tab = createBottomTabNavigator();
-
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarIcon: ({focused}) => {
-            let iconName;
-            if (route.name === 'Home') {
-              iconName = focused ? (
-                <Image
-                  source={require('/ReactNative/assets/logo1.png')}
-                  style={{width: 30, height: 30}}></Image>
-              ) : (
-                <Image
-                  source={require('/ReactNative/assets/logo2.png')}
-                  style={{width: 30, height: 30}}></Image>
-              );
-            } else if (route.name === 'Setting') {
-              iconName = focused ? (
-                <Image
-                  source={require('/ReactNative/assets/logo1.png')}
-                  style={{width: 30, height: 30}}></Image>
-              ) : (
-                <Image
-                  source={require('/ReactNative/assets/logo3.png')}
-                  style={{width: 30, height: 30}}></Image>
-              );
-            }
-            return iconName;
-          },
-        })}>
-        <Tab.Screen name="Home" component={HomeStack} />
-        <Tab.Screen name="Setting" component={SettingStack} />
-      </Tab.Navigator>
+      <Drawer.Navigator
+        initialRouteName="HomeStack"
+        drawerPosition="left"
+        drawerContent={props => <MenuScreen {...props} />}>
+        <Drawer.Screen name="HomeStack" component={HomeStack} />
+        <Drawer.Screen name="ProductStack" component={ProductStack} />
+      </Drawer.Navigator>
     </NavigationContainer>
   );
 };
