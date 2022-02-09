@@ -1,77 +1,58 @@
+import {} from 'react-native';
 import React from 'react';
-import {View, Image} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
 
-import FirstPage from './pages/FirstPage';
-import SecondPage from './pages/SecondPage';
-import ThirdPage from './pages/ThirdPage';
-import CustomSidebarMenu from './pages/CustomSidebarMenu';
-
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import HomeScreen from './screens/HomeScreen';
+import ProductScreen from './screens/ProductScreen';
+import DetailScreen from './screens/DetailScreen';
+import MenuScreen from './screens/MenuScreen';
+import AboutScreen from './screens/AboutScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawerStructure = props => {
-  const toggleDrawer = () => {
-    props.navigationProps.toggleDrawer();
-  };
-  return (
-    <View style={{flexDirection: 'row'}}>
-      <TouchableOpacity onPress={() => toggleDrawer()}>
-        <Image
-          source={require('/ReactNative/assets/drawerWhite.png')}
-          style={{width: 25, height: 25, marginLeft: 5}}></Image>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-function FirstScreenStack({navigation}) {
+function HomeStack() {
   return (
     <Stack.Navigator
-      initialRouteName="FirstPage"
       screenOptions={{
-        headerStyle: {backgroundColor: '#f4511e'},
-        headerTintColor: '#ffff',
-        headerTitleStyle: {fontweight: 'bold'},
-        headerLeft: () => (
-          <NavigationDrawerStructure
-            navigationProps={navigation}></NavigationDrawerStructure>
-        ),
+        headerStyle: {backgroundColor: '#80F7FF'},
+        headerTintColor: '#FFFF',
+        headerTitleStyle: {fontWeight: 'bold'},
       }}>
       <Stack.Screen
-        name="FirstPage"
-        component={FirstPage}
-        options={{title: 'FIRST PAGE'}}></Stack.Screen>
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{title: 'หน้าหลัก'}}
+      />
+      <Stack.Screen
+        name="AboutScreen"
+        component={AboutScreen}
+        options={{title: 'เกี่ยวกับเรา'}}
+      />
     </Stack.Navigator>
   );
 }
 
-function SecondScreenStack({navigation}) {
+function ProductStack() {
   return (
     <Stack.Navigator
-      initialRouteName="FirstPage"
       screenOptions={{
-        headerStyle: {backgroundColor: '#f4511e'},
-        headerTintColor: '#ffff',
-        headerTitleStyle: {fontweight: ''},
-        headerLeft: () => (
-          <NavigationDrawerStructure
-            navigationProps={navigation}></NavigationDrawerStructure>
-        ),
+        headerStyle: {backgroundColor: '#80F7FF'},
+        headerTintColor: '#FFFF',
+        headerTitleStyle: {fontWeight: 'bold'},
       }}>
       <Stack.Screen
-        name="SecondPage"
-        component={SecondPage}
-        options={{title: 'SECOND PAGE'}}></Stack.Screen>
-
+        name="ProductScreen"
+        component={ProductScreen}
+        options={{title: 'PRODUCT SCREEN'}}
+      />
       <Stack.Screen
-        name="ThirdPage"
-        component={ThirdPage}
-        options={{title: 'THIRD PAGE'}}></Stack.Screen>
+        name="DetailScreen"
+        component={DetailScreen}
+        options={{title: 'DETAIL SCREEN'}}
+      />
     </Stack.Navigator>
   );
 }
@@ -80,17 +61,11 @@ const App = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        drawerContentOptions={{
-          activeYinColor: '#e91263',
-          itemStyle: {marginVertical: 5},
-        }}
-        drawerContent={props => <CustomSidebarMenu {...props} />}>
-        <Drawer.Screen
-          name="FirstPage"
-          component={FirstScreenStack}></Drawer.Screen>
-        <Drawer.Screen
-          name="SecondPage"
-          component={SecondScreenStack}></Drawer.Screen>
+        initialRouteName="HomeStack"
+        drawerPosition="left"
+        drawerContent={props => <MenuScreen {...props} />}>
+        <Drawer.Screen name="HomeStack" component={HomeStack} />
+        <Drawer.Screen name="ProductStack" component={ProductStack} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

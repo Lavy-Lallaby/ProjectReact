@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
-import Ionicons from 'react-native-vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   HeaderButtons,
   HeaderButton,
@@ -8,10 +8,7 @@ import {
 } from 'react-navigation-header-buttons';
 
 const IoniconsHeaderButton = props => (
-  <HeaderButton
-    IconComponent={Ionicons}
-    iconSize={23}
-    {...props}></HeaderButton>
+  <HeaderButton IconComponent={Ionicons} iconSize={23} {...props} />
 );
 
 const HomeScreen = ({navigation}) => {
@@ -19,18 +16,22 @@ const HomeScreen = ({navigation}) => {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
-          <Item title="menu" iconName="menu" onPress={() => alert('menu')} />
+          <Item
+            title="menu"
+            iconName="menu"
+            onPress={() => navigation.openDrawer()}
+          />
         </HeaderButtons>
       ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
           <Item
-            title="Register"
+            title="register"
             iconName="person-add"
-            onPress={() => alert('Register')}
+            onPress={() => alert('ลงทะเบียน')}
           />
         </HeaderButtons>
-      ),
+      ),  
     });
   }, [navigation]);
 
@@ -39,10 +40,10 @@ const HomeScreen = ({navigation}) => {
       <Ionicons name="home-outline" size={30} color="#f4511e" />
       <Text>หน้าหลัก</Text>
       <Button
-        title="Go to About"
+        title="Go to Product"
         onPress={() =>
-          navigation.navigate('About', {email: 'Kh.jakkit_st@tni.ac.th'})
-        }
+          navigation.navigate('Product', {email: 'kh.jakkit_st@tni.ac.th'})
+        }  
       />
     </View>
   );
