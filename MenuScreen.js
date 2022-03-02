@@ -1,6 +1,6 @@
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
-
+import {ScrollView} from 'react-native-gesture-handler';
 import {
   Content,
   Button,
@@ -47,6 +47,23 @@ const MenuScreen = ({navigation}) => {
             </Left>
             <Body>
               <Text>สินค้า</Text>
+            </Body>
+            <Right>
+              <Icon active name="arrow-forward" />
+            </Right>
+          </ListItem>
+
+          <ListItem
+            icon
+            style={{marginTop: 10, marginBottom: 10}}
+            onPress={() => navigation.navigate('LoginStack')}>
+            <Left>
+              <Button style={{backgroundColor: '#007AFF'}}>
+                <Icon active name="log-in" />
+              </Button>
+            </Left>
+            <Body>
+              <Text>เข้าสู่ระบบ</Text>
             </Body>
             <Right>
               <Icon active name="arrow-forward" />

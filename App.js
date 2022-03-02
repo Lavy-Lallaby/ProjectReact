@@ -10,6 +10,7 @@ import DetailScreen from './screens/DetailScreen';
 import MenuScreen from './screens/MenuScreen';
 import AboutScreen from './screens/AboutScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import LoginScreen from './screens/LoginScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -68,6 +69,23 @@ function ProductStack() {
   );
 }
 
+function LoginStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {backgroundColor: '#51D7AC'},
+        headerTintColor: '#FFFF',
+        headerTitleStyle: {fontWeight: 'bold'},
+      }}>
+      <Stack.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{title: 'เข้าสู่ระบบ'}}
+      />
+    </Stack.Navigator>
+  );
+}
+
 const App = () => {
   return (
     <NavigationContainer>
@@ -77,6 +95,7 @@ const App = () => {
         drawerContent={props => <MenuScreen {...props} />}>
         <Drawer.Screen name="HomeStack" component={HomeStack} />
         <Drawer.Screen name="ProductStack" component={ProductStack} />
+        <Drawer.Screen name="LoginStack" component={LoginStack} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
