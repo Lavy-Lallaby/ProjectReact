@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Text, View, Component} from 'react-native';
+import {Text, View, Component, StyleSheet} from 'react-native';
 import React from 'react';
 import {
   Container,
@@ -14,9 +14,10 @@ import {
 } from 'native-base';
 import {Formik, Field} from 'formik';
 import * as Yup from 'yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {userStoreContext} from '../context/userContext';
 
 const validateSchema = Yup.object().shape({
-  name: Yup.string().required('กรุณาป้อนชื่อสกุล'),
   email: Yup.string()
     .email('รูปแบบอีเมลไม่ถูกต้อง')
     .required('กรุณากรอกอีเมลใหม่'),
@@ -25,38 +26,49 @@ const validateSchema = Yup.object().shape({
     .required('กรุณากรอกรหัสผ่านใหม่'),
 });
 
-const RegisterScreen = ({navigation}) => {
+const LoginScreen = ({navigation}) => {
+  const userStore = React.useContext(userStoreContext);
   return (
     <Container>
       <Content padder>
         <Formik
           //ค่าเริ่มต้นโดยกำหนดให้ตรง backend
           initialValues={{
-            name: '',
             email: '',
             password: '',
           }}
           validationSchema={validateSchema}
-          //button register
           onSubmit={async (values, {setSubmitting}) => {
-            // same shape as initial values
             try {
-              const url = 'https://api.codingthailand.com/api/register';
+              const url = 'https://api.codingthailand.com/api/login';
               const res = await axios.post(url, {
-                name: values.name,
                 email: values.email,
                 password: values.password,
               });
-              alert(res.data.message);
+              await AsyncStorage.setItem('@token', JSON.stringify(res.data));
+
+              const urlProfile = 'https://api.codingthailand.com/api/profile';
+              const resProfile = await axios.get(urlProfile, {
+                headers: {
+                  Authorization: 'Bearer ' + res.data.access_token,
+                },
+              });
+              //alert(JSON.stringify(resProfile.data.data.user));
+              await AsyncStorage.setItem(
+                '@profile',
+                JSON.stringify(resProfile.data.data.user),
+              );
+              const profile = await AsyncStorage.getItem('@profile');
+              userStore.updateProfile(JSON.parse(profile));
+
+              alert('เข้าสู่ระบบแล้ว');
               navigation.navigate('HomeScreen');
             } catch (error) {
-              //not save data to server ex.double email
-              alert(error.response.data.errors.email[0]);
+              alert(error.response.data.message);
             } finally {
               //button return click double
               setSubmitting(false);
             }
-            //console.log(values);
           }}>
           {(
             {
@@ -70,24 +82,6 @@ const RegisterScreen = ({navigation}) => {
             }, // ไว้ตรวจสอบ err ที่เกิดขึ้น touch เมื่อกดแต่ยังไม่กรอก
           ) => (
             <Form>
-              <Item
-                fixedLabel
-                error={errors.name && touched.name ? true : false}>
-                <Label>Name</Label>
-                <Input
-                  value={values.name}
-                  onChangeText={handleChange('name')}
-                  onBlur={handleBlur('name')}
-                />
-                {errors.name && touched.name && (
-                  <Icon name="close-circle"></Icon>
-                )}
-              </Item>
-              {errors.name && touched.name && (
-                <Item>
-                  <Label style={{color: '#FF4C4C'}}>{errors.name}</Label>
-                </Item>
-              )}
               <Item
                 fixedLabel
                 error={errors.email && touched.email ? true : false}>
@@ -137,7 +131,7 @@ const RegisterScreen = ({navigation}) => {
                 style={{marginTop: 15, backgroundColor: '#ABFCD1'}}>
                 <Text
                   style={{color: '#97C1EC', fontSize: 16, fontWeight: 'bold'}}>
-                  Register
+                  Login
                 </Text>
               </Button>
             </Form>
@@ -148,4 +142,6 @@ const RegisterScreen = ({navigation}) => {
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;
+
+const styles = StyleSheet.create({});
